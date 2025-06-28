@@ -1,13 +1,26 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import { ClockService } from './services/clock.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-root',
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
+  clockService = inject(ClockService);
+  // value = signal(50);
+
+  constructor(public clock: ClockService) {}
+
+  formatTime(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const min = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const sec = String(totalSeconds % 60).padStart(2, '0');
+    return `${min}:${sec}`;
+  }
 }
