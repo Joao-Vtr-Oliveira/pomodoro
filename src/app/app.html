@@ -15,7 +15,14 @@
 					></mat-progress-spinner>
 					}
 
-					<p [classList]="'text-4xl text-center ' + (clockService.remainingTime() === 0 ? 'animate-ping' : 'animate-pulse')">
+					<p
+						[classList]="
+							'text-4xl text-center ' +
+							(clockService.remainingTime() === 0
+								? 'animate-ping'
+								: 'animate-pulse')
+						"
+					>
 						{{ formatTime(clockService.remainingTime()) }}
 					</p>
 				</div>
