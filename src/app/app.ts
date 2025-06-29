@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { ClockService } from './services/clock.service';
@@ -13,7 +13,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 })
 export class App {
   clockService = inject(ClockService);
-  // value = signal(50);
+
+  controller = computed(() => {
+    if(this.clockService.timerController() === 'rest') return this.clockService.remainingTime() === this.clockService.timerRest();
+    return this.clockService.remainingTime() === this.clockService.timerLimit();
+    
+  })
 
   formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);
