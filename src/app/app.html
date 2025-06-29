@@ -19,6 +19,25 @@
 						{{ formatTime(clockService.remainingTime()) }}
 					</p>
 				</div>
+				<div class="mt-5 text-center font-bold font-mono">
+					<span class="flex text-purple-600">
+						@if (clockService.timerController() === 'study') {
+						<mat-icon
+							class="mr-3"
+							aria-hidden="false"
+							aria-label="Example home icon"
+							fontIcon="coffee"
+						></mat-icon>
+						Time to study } @else {
+						<mat-icon
+							class="mr-3"
+							aria-hidden="false"
+							aria-label="Example home icon"
+							fontIcon="snooze"
+						></mat-icon>
+						Time to rest }
+					</span>
+				</div>
 			</mat-card-content>
 
 			<mat-card-actions>

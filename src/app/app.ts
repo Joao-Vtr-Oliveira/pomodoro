@@ -3,10 +3,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { ClockService } from './services/clock.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
-  imports: [MatCardModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
