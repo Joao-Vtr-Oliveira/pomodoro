@@ -6,12 +6,13 @@ import { computed, Injectable, signal } from '@angular/core';
 export class ClockService {
 	// timerStudy = signal(10 * 1000); // estudo: 10 segundos
 	// timerRest = signal(5 * 1000); // descanso: 5 segundos
-	timerStudy = signal(25 * 60 * 1000); // estudo: 25 minutos
-	timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
-	studyCycle = signal(0);
+	private timerStudy = signal(25 * 60 * 1000); // estudo: 25 minutos
+	private timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
+	private timerRestLonger = signal(this.timerRest() * 3);
+	studyCycle = signal(0); // Quantos ciclos já se passaram
 
-	timerController = signal<'study' | 'rest'>('study');
-	timerActive = signal(false);
+	timerController = signal<'study' | 'rest'>('study'); // Se é estudo ou descanso
+	timerActive = signal(false); // Informação se o timer está ativo
 
 	remainingTime = signal(this.timerStudy());
 	private intervalId: ReturnType<typeof setInterval> | null = null;
@@ -23,6 +24,13 @@ export class ClockService {
 		const percent = (remaining / total) * 100;
 		return Math.max(0, Math.min(100, Math.round(percent)));
 	});
+
+	changeTimers(timerStudy: number, timerRest: number, timeRestLonger: number = ((timerRest * 60 * 1000) * 3)) {
+		this.timerStudy.set(timerStudy * 60 * 1000);
+		this.timerRest.set(timerRest * 60 * 1000);
+		this.timerRestLonger.set(timeRestLonger)
+		this.resetClock();
+	}
 
 	startClock() {
 		if (this.intervalId !== null) return;
@@ -76,7 +84,7 @@ export class ClockService {
 			this.studyCycle.update((oldValue) => oldValue + 1);
 			this.timerController.set('rest');
 			if(this.studyCycle() % 4 === 0) {
-				this.remainingTime.set(this.timerRest() * 3)
+				this.remainingTime.set(this.timerRestLonger());
 			} else {
 				this.remainingTime.set(this.timerRest());
 			}
