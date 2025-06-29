@@ -1,11 +1,30 @@
 <div class="flex flex-col items-center justify-center text-center p-4">
 	<h2 mat-dialog-title>Pomodoro Settings</h2>
->
 
-	<mat-dialog-content>
-		Select what timer config you want to use:
-	</mat-dialog-content>
+	<mat-dialog-content> What you want to do? </mat-dialog-content>
 
+	<div class="flex justify-center mt-5 gap-3 mb-5">
+		<button
+			matFab
+			extended
+			(click)="tabSelected.set(true)"
+			[disabled]="tabSelected()"
+		>
+			<mat-icon>access_alarm</mat-icon>
+			Change timer
+		</button>
+		<button
+			matFab
+			extended
+			(click)="tabSelected.set(false)"
+			[disabled]="!tabSelected()"
+		>
+			<mat-icon>create</mat-icon>
+			Add a new timer
+		</button>
+	</div>
+
+	@if (tabSelected()) {
 	<div class="flex flex-col items-center gap-4 w-full mt-4">
 		@for (timerConfig of checkTimers(); track $index) {
 		<div class="border rounded-xl p-4 w-full max-w-md text-left">
@@ -37,8 +56,27 @@
 		</div>
 		}
 	</div>
+	} @else {
+	<mat-form-field>
+		<mat-label>Time Studying</mat-label>
+		<input type="number" matInput [(ngModel)]="newTimerStudy" required />
+	</mat-form-field>
+	<mat-form-field>
+		<mat-label>Time Resting</mat-label>
+		<input type="number" matInput [(ngModel)]="newTimerRest" required />
+	</mat-form-field>
+	<mat-form-field>
+		<mat-label>Time Resting Longer</mat-label>
+		<input type="number" matInput [(ngModel)]="newTimerRestLonger" required />
+	</mat-form-field>
 
-	<mat-dialog-actions class="mt-6">
-		<button matButton mat-dialog-close>Close</button>
-	</mat-dialog-actions>
+	<button matButton matButton="filled" (click)="clickNewTimer()">Add</button>
+
+	}
+
+  <div class='self-end'>
+    <mat-dialog-actions class="mt-6">
+      <button matButton mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+  </div>
 </div>

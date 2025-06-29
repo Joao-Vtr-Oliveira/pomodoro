@@ -38,10 +38,10 @@ export class ClockSettings {
 					timer.timerStudy === timerFd.timerStudy
 			)
 		) {
-			this.timers.unshift(timer);
-			this.saveTimers();
+      return alert('Timer already exists');
 		}
-    return alert('Timer already exists')
+    this.timers.unshift(timer);
+    this.saveTimers();
 	}
 
 	removeTimer(timerRm: TimerInterface) {
