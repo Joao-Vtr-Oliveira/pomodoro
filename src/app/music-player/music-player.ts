@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MusicService } from '../services/MusicService/music-service';
-import { DecimalPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSliderModule} from '@angular/material/slider';
@@ -12,7 +11,7 @@ import {MatSliderModule} from '@angular/material/slider';
 	imports: [MatButtonModule, MatIconModule, MatSliderModule],
 })
 export class MusicPlayerComponent {
-	constructor(public musicService: MusicService) {}
+  musicService = inject(MusicService)
 
 	onVolumeChange(event: Event) {
 		const input = event.target as HTMLInputElement;
