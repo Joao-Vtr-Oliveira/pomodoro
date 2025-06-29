@@ -15,8 +15,6 @@ export class App {
   clockService = inject(ClockService);
   // value = signal(50);
 
-  constructor(public clock: ClockService) {}
-
   formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);
     const min = String(Math.floor(totalSeconds / 60)).padStart(2, '0');

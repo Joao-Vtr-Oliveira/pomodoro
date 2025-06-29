@@ -1,23 +1,30 @@
-<div class=''>
+<div class="flex justify-center items-center min-h-screen p-4">
 	<mat-card class="example-card" appearance="outlined">
-		<mat-card-header>
-			<mat-card-title>Pomodoro</mat-card-title>
-		</mat-card-header>
-		<mat-card-content>
-			<mat-progress-spinner
-				class="example-margin"
-				mode="determinate"
-				[value]="clockService.progress()"
-			>
-			</mat-progress-spinner>
-			<div class="text-center">
-				<p class="text-4xl">{{ formatTime(clock.remainingTime()) }}</p>
-			</div>
-		</mat-card-content>
-		<mat-card-actions>
-			<button matButton (click)="clock.startClock()">Start</button>
-			<button matButton (click)="clock.stopClock()">Stop</button>
-			<button matButton (click)="clock.resetClock()">Reset</button>
-		</mat-card-actions>
+		<div class="flex flex-col items-center justify-center gap-6 p-6">
+			<mat-card-header>
+				<mat-card-title>Pomodoro</mat-card-title>
+			</mat-card-header>
+
+			<mat-card-content>
+				<div class="flex flex-col items-center justify-center gap-4">
+					<mat-progress-spinner
+						class="example-margin"
+						mode="determinate"
+						[value]="clockService.progress()"
+					></mat-progress-spinner>
+					<p class="text-4xl text-center">
+						{{ formatTime(clockService.remainingTime()) }}
+					</p>
+				</div>
+			</mat-card-content>
+
+			<mat-card-actions>
+				<div class="flex justify-center gap-4">
+					<button matButton (click)="clockService.startClock()">Start</button>
+					<button matButton (click)="clockService.stopClock()">Stop</button>
+					<button matButton (click)="clockService.resetClock()">Reset</button>
+				</div>
+			</mat-card-actions>
+		</div>
 	</mat-card>
 </div>

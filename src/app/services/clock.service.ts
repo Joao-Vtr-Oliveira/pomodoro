@@ -36,7 +36,6 @@ export class ClockService {
         return updated;
       });
     }, 1000);
-
 		
   }
 
