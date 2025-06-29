@@ -14,11 +14,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 export class App {
   clockService = inject(ClockService);
 
-  controller = computed(() => {
-    if(this.clockService.timerController() === 'rest') return this.clockService.remainingTime() === this.clockService.timerRest();
-    return this.clockService.remainingTime() === this.clockService.timerLimit();
+  // controller = computed(() => {
+  //   if(this.clockService.timerController() === 'rest') return this.clockService.remainingTime() === this.clockService.timerRest();
+  //   return this.clockService.remainingTime() === this.clockService.timerLimit();
     
-  })
+  // })
 
   formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);

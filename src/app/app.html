@@ -7,13 +7,12 @@
 
 			<mat-card-content>
 				<div class="flex flex-col items-center justify-center gap-4">
-					@if (!controller()) {
-						<mat-progress-spinner
+					<mat-progress-spinner
 						class="example-margin"
 						mode="determinate"
 						[value]="clockService.progress()"
-						></mat-progress-spinner>
-					}
+					></mat-progress-spinner>
+
 					<p class="text-4xl text-center">
 						{{ formatTime(clockService.remainingTime()) }}
 					</p>
@@ -25,7 +24,9 @@
 					<button matButton (click)="clockService.startClock()">Start</button>
 					<button matButton (click)="clockService.stopClock()">Stop</button>
 					<button matButton (click)="clockService.resetClock()">Reset</button>
-					<button matButton (click)="clockService.handleCycleEnd()">Skip</button>
+					<button matButton (click)="clockService.handleCycleEnd()">
+						Skip
+					</button>
 				</div>
 			</mat-card-actions>
 		</div>

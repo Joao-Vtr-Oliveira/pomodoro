@@ -4,10 +4,10 @@ import { computed, Injectable, signal } from '@angular/core';
 	providedIn: 'root',
 })
 export class ClockService {
-	// timerLimit = signal(10 * 1000); // estudo: 10 segundos
-	// timerRest = signal(5 * 1000); // descanso: 5 segundos
-	timerLimit = signal(25 * 60 * 1000); // estudo: 25 minutos
-	timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
+	timerLimit = signal(10 * 1000); // estudo: 10 segundos
+	timerRest = signal(5 * 1000); // descanso: 5 segundos
+	// timerLimit = signal(25 * 60 * 1000); // estudo: 25 minutos
+	// timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
 
 	timerController = signal<'study' | 'rest'>('study');
 
@@ -18,8 +18,8 @@ export class ClockService {
 		const total =
 			this.timerController() === 'study' ? this.timerLimit() : this.timerRest();
 		const remaining = this.remainingTime();
-		const percent = ((total - remaining) / total) * 100;
-		return Math.min(100, Math.max(1, Math.round(percent)));
+		const percent = (remaining / total) * 100;
+		return Math.max(0, Math.min(100, Math.round(percent)));
 	});
 
 	startClock() {
