@@ -89,7 +89,7 @@ export class ClockService {
 		// Aqui **não reinicia** automaticamente!
 	}
 
-	private playSound() {
+	playSound() {
 		const audio = new Audio('alarm-sound.mp3');
 		audio.play().catch((err) => {
 			console.error('Erro ao tocar o som: ', err);
