@@ -10,7 +10,6 @@ export class MusicService {
 
   private sources = {
     lofi: 'https://streaming.shoutcast.com/chillofi-radio',
-    synthwave: 'https://waveretro.ru:8443/stream',
   };
 
   play(genre: 'lofi') {
