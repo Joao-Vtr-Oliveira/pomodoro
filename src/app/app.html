@@ -42,8 +42,19 @@
 							aria-label="Example home icon"
 							fontIcon="snooze"
 						></mat-icon>
-						Time to rest }
+						Time to rest. }
 					</span>
+					@if (clockService.studyCycle() > 0) {
+					<span class="text-purple-600 flex">
+						<mat-icon
+							class="mr-3"
+							aria-hidden="false"
+							aria-label="Example home icon"
+							fontIcon="help_outline"
+						></mat-icon>
+						{{ clockService.studyCycle() }} study cycles.
+					</span>
+					}
 				</div>
 			</mat-card-content>
 
@@ -82,7 +93,7 @@
 				</div>
 			</mat-card-actions>
 			@if (showMusic()) {
-				<app-music-player />
+			<app-music-player />
 			}
 		</div>
 	</mat-card>

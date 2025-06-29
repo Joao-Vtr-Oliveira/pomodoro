@@ -6,6 +6,7 @@ import { computed, Injectable, signal } from '@angular/core';
 export class ClockService {
 	timerStudy = signal(10 * 1000); // estudo: 10 segundos
 	timerRest = signal(5 * 1000); // descanso: 5 segundos
+	studyCycle = signal(0);
 	// timerStudy = signal(25 * 60 * 1000); // estudo: 25 minutos
 	// timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
 
@@ -72,6 +73,7 @@ export class ClockService {
 	handleCycleEnd() {
 		if (this.timerController() === 'study') {
 			console.log('⏰ Estudo acabou! Hora de descansar!');
+			this.studyCycle.update((oldValue) => oldValue + 1);
 			this.timerController.set('rest');
 			this.remainingTime.set(this.timerRest());
 		} else {
