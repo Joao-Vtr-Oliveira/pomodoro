@@ -53,7 +53,7 @@
 							aria-label="Example home icon"
 							fontIcon="help_outline"
 						></mat-icon>
-						{{ clockService.studyCycle() }} study cycles.
+						{{ clockService.studyCycle() }} {{ clockService.studyCycle() === 1 ? 'study cycle.' : 'study cycles.' }}
 					</span>
 					}
 				</div>
