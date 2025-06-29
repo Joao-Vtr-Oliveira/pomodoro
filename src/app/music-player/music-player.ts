@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { MusicService } from '../services/MusicService/music-service';
+import { Component, inject } from '@angular/core';
+import { MusicService } from '../services/MusicService/music.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatSliderModule} from '@angular/material/slider';
