@@ -1,4 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
+import { TimerInterface } from './clockSettings/clock-settings';
 
 @Injectable({
 	providedIn: 'root',
@@ -25,10 +26,14 @@ export class ClockService {
 		return Math.max(0, Math.min(100, Math.round(percent)));
 	});
 
-	changeTimers(timerStudy: number, timerRest: number, timeRestLonger: number = ((timerRest * 60 * 1000) * 3)) {
-		this.timerStudy.set(timerStudy * 60 * 1000);
-		this.timerRest.set(timerRest * 60 * 1000);
-		this.timerRestLonger.set(timeRestLonger)
+	changeTimers(
+		timerStudy: number,
+		timerRest: number,
+		timeRestLonger: number = timerRest * 3
+	) {
+		this.timerStudy.set(timerStudy);
+		this.timerRest.set(timerRest);
+		this.timerRestLonger.set(timeRestLonger);
 		this.resetClock();
 	}
 
@@ -65,7 +70,7 @@ export class ClockService {
 		if (this.intervalId !== null) {
 			clearInterval(this.intervalId);
 			this.intervalId = null;
-			this.timerActive.set(false)
+			this.timerActive.set(false);
 		}
 	}
 
@@ -74,8 +79,7 @@ export class ClockService {
 		this.remainingTime.set(
 			this.timerController() === 'study' ? this.timerStudy() : this.timerRest()
 		);
-		this.timerActive.set(false)
-
+		this.timerActive.set(false);
 	}
 
 	handleCycleEnd() {
@@ -83,7 +87,7 @@ export class ClockService {
 			console.log('⏰ Estudo acabou! Hora de descansar!');
 			this.studyCycle.update((oldValue) => oldValue + 1);
 			this.timerController.set('rest');
-			if(this.studyCycle() % 4 === 0) {
+			if (this.studyCycle() % 4 === 0) {
 				this.remainingTime.set(this.timerRestLonger());
 			} else {
 				this.remainingTime.set(this.timerRest());
@@ -93,7 +97,7 @@ export class ClockService {
 			this.timerController.set('study');
 			this.remainingTime.set(this.timerStudy());
 		}
-		this.timerActive.set(false)
+		this.timerActive.set(false);
 		// Aqui **não reinicia** automaticamente!
 	}
 
@@ -102,5 +106,13 @@ export class ClockService {
 		audio.play().catch((err) => {
 			console.error('Erro ao tocar o som: ', err);
 		});
+	}
+
+	returnTimer(): TimerInterface {
+		return {
+			timerStudy: this.timerStudy(),
+			timerRest: this.timerRest(),
+			timerRestLonger: this.timerRestLonger(),
+		};
 	}
 }
