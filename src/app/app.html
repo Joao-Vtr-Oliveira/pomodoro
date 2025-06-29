@@ -48,32 +48,42 @@
 			</mat-card-content>
 
 			<mat-card-actions>
-				<div class="flex justify-center gap-4">
-					<button
-						[disabled]="clockService.timerActive()"
-						matButton
-						(click)="clockService.startClock()"
-					>
-						Start
-					</button>
-					<button
-						matButton
-						[disabled]="!clockService.timerActive()"
-						(click)="clockService.stopClock()"
-					>
-						Stop
-					</button>
-					<button matButton (click)="clockService.resetClock()">Reset</button>
-					<button
-						matButton
-						[disabled]="clockService.timerActive()"
-						(click)="clockService.handleCycleEnd()"
-					>
-						Skip
-					</button>
+				<div>
+					<div class="flex justify-center gap-4">
+						<button
+							[disabled]="clockService.timerActive()"
+							matButton
+							(click)="clockService.startClock()"
+						>
+							Start
+						</button>
+						<button
+							matButton
+							[disabled]="!clockService.timerActive()"
+							(click)="clockService.stopClock()"
+						>
+							Stop
+						</button>
+						<button matButton (click)="clockService.resetClock()">Reset</button>
+						<button
+							matButton
+							[disabled]="clockService.timerActive()"
+							(click)="clockService.handleCycleEnd()"
+						>
+							Skip
+						</button>
+					</div>
+					<div class="flex justify-center mt-5">
+						<button matFab extended (click)="onMusicClick()">
+							<mat-icon>audiotrack</mat-icon>
+							Music
+						</button>
+					</div>
 				</div>
 			</mat-card-actions>
-			<app-music-player />
+			@if (showMusic()) {
+				<app-music-player />
+			}
 		</div>
 	</mat-card>
 </div>
