@@ -42,7 +42,8 @@
 							aria-label="Example home icon"
 							fontIcon="snooze"
 						></mat-icon>
-						Time to rest. }
+						{{clockService.studyCycle() % 4 === 0 ? 'Time to rest longer.' : 'Time to rest.'}} 
+					}
 					</span>
 					@if (clockService.studyCycle() > 0) {
 					<span class="text-purple-600 flex">
