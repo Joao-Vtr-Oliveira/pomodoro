@@ -23,7 +23,13 @@
 
 			<mat-card-actions>
 				<div class="flex justify-center gap-4">
-					<button matButton (click)="clockService.startClock()">Start</button>
+					<button
+						[disabled]="clockService.timerActive()"
+						matButton
+						(click)="clockService.startClock()"
+					>
+						Start
+					</button>
 					<button
 						matButton
 						[disabled]="!clockService.timerActive()"
