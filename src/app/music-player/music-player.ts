@@ -8,6 +8,7 @@ import {MatSliderModule} from '@angular/material/slider';
 @Component({
 	selector: 'app-music-player',
 	templateUrl: './music-player.html',
+	styleUrl: './music-player.css',
 	imports: [MatButtonModule, MatIconModule, MatSliderModule],
 })
 export class MusicPlayerComponent {
