@@ -4,19 +4,20 @@ import { computed, Injectable, signal } from '@angular/core';
 	providedIn: 'root',
 })
 export class ClockService {
-	timerLimit = signal(10 * 1000); // estudo: 10 segundos
+	timerStudy = signal(10 * 1000); // estudo: 10 segundos
 	timerRest = signal(5 * 1000); // descanso: 5 segundos
-	// timerLimit = signal(25 * 60 * 1000); // estudo: 25 minutos
+	// timerStudy = signal(25 * 60 * 1000); // estudo: 25 minutos
 	// timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
 
 	timerController = signal<'study' | 'rest'>('study');
+	timerActive = signal(false);
 
-	remainingTime = signal(this.timerLimit());
+	remainingTime = signal(this.timerStudy());
 	private intervalId: ReturnType<typeof setInterval> | null = null;
 
 	progress = computed(() => {
 		const total =
-			this.timerController() === 'study' ? this.timerLimit() : this.timerRest();
+			this.timerController() === 'study' ? this.timerStudy() : this.timerRest();
 		const remaining = this.remainingTime();
 		const percent = (remaining / total) * 100;
 		return Math.max(0, Math.min(100, Math.round(percent)));
@@ -24,12 +25,13 @@ export class ClockService {
 
 	startClock() {
 		if (this.intervalId !== null) return;
+		this.timerActive.set(true);
 
 		// Se o tempo acabou, reseta para o tempo do ciclo atual
 		if (this.remainingTime() === 0) {
 			this.remainingTime.set(
 				this.timerController() === 'study'
-					? this.timerLimit()
+					? this.timerStudy()
 					: this.timerRest()
 			);
 		}
@@ -54,14 +56,17 @@ export class ClockService {
 		if (this.intervalId !== null) {
 			clearInterval(this.intervalId);
 			this.intervalId = null;
+			this.timerActive.set(false)
 		}
 	}
 
 	resetClock() {
 		this.stopClock();
 		this.remainingTime.set(
-			this.timerController() === 'study' ? this.timerLimit() : this.timerRest()
+			this.timerController() === 'study' ? this.timerStudy() : this.timerRest()
 		);
+		this.timerActive.set(false)
+
 	}
 
 	handleCycleEnd() {
@@ -72,8 +77,9 @@ export class ClockService {
 		} else {
 			console.log('⏰ Descanso acabou! Hora de voltar a estudar!');
 			this.timerController.set('study');
-			this.remainingTime.set(this.timerLimit());
+			this.remainingTime.set(this.timerStudy());
 		}
+		this.timerActive.set(false)
 		// Aqui **não reinicia** automaticamente!
 	}
 

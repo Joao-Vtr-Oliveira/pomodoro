@@ -22,9 +22,9 @@
 			<mat-card-actions>
 				<div class="flex justify-center gap-4">
 					<button matButton (click)="clockService.startClock()">Start</button>
-					<button matButton (click)="clockService.stopClock()">Stop</button>
+					<button matButton [disabled]="!clockService.timerActive()" (click)="clockService.stopClock()">Stop</button>
 					<button matButton (click)="clockService.resetClock()">Reset</button>
-					<button matButton (click)="clockService.handleCycleEnd()">
+					<button matButton [disabled]="clockService.timerActive()" (click)="clockService.handleCycleEnd()">
 						Skip
 					</button>
 				</div>
