@@ -22,4 +22,40 @@ export class ClockSettings {
 			timerRestLonger: 10 * 60 * 1000 * 3,
 		},
 	];
+
+	constructor() {
+		const timers = localStorage.getItem('timers');
+
+		if (timers) this.timers = JSON.parse(timers);
+	}
+
+	addTimer(timer: TimerInterface) {
+		if (
+			this.timers.find(
+				(timerFd) =>
+					timer.timerRest === timerFd.timerRest &&
+					timer.timerRestLonger === timerFd.timerRest &&
+					timer.timerStudy === timerFd.timerStudy
+			)
+		) {
+			this.timers.unshift(timer);
+			this.saveTimers();
+		}
+    return alert('Timer already exists')
+	}
+
+	removeTimer(timerRm: TimerInterface) {
+		this.timers = this.timers.filter(
+			(timer) =>
+				timer.timerRest !== timerRm.timerRest &&
+				timer.timerRestLonger !== timerRm.timerRest &&
+				timer.timerStudy !== timerRm.timerStudy
+		);
+
+		this.saveTimers();
+	}
+
+	private saveTimers() {
+		localStorage.setItem('timers', JSON.stringify(this.timers));
+	}
 }

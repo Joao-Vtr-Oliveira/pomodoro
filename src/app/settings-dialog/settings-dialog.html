@@ -1,5 +1,6 @@
 <div class="flex flex-col items-center justify-center text-center p-4">
 	<h2 mat-dialog-title>Pomodoro Settings</h2>
+>
 
 	<mat-dialog-content>
 		Select what timer config you want to use:
@@ -7,24 +8,32 @@
 
 	<div class="flex flex-col items-center gap-4 w-full mt-4">
 		@for (timerConfig of checkTimers(); track $index) {
-		<div
-			class="border rounded-xl p-4 w-full max-w-md text-left hover:text-blue-400 cursor-pointer"
-			(click)="
-				[
-					clockService.changeTimers(
-						timerConfig.timerStudy,
-						timerConfig.timerRest,
-						timerConfig.timerRestLonger
-					),
-					dialogRef.close()
-				]
-			"
-		>
+		<div class="border rounded-xl p-4 w-full max-w-md text-left">
 			<p>Timer studying: {{ timerConfig.timerStudy / 60 / 1000 }} min</p>
 			<p>Timer resting: {{ timerConfig.timerRest / 60 / 1000 }} min</p>
 			<p>
 				Timer resting longer: {{ timerConfig.timerRestLonger / 60 / 1000 }} min
 			</p>
+			<div class="mt-3 flex justify-end">
+				<button
+					matButton
+					(click)="
+						[
+							clockService.changeTimers(
+								timerConfig.timerStudy,
+								timerConfig.timerRest,
+								timerConfig.timerRestLonger
+							),
+							dialogRef.close()
+						]
+					"
+				>
+					Use
+				</button>
+				<button (click)="clockSettings.removeTimer(timerConfig)" matButton>
+					Remove
+				</button>
+			</div>
 		</div>
 		}
 	</div>
