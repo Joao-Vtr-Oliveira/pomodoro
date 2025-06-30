@@ -18,6 +18,18 @@ export class ClockService {
 	remainingTime = signal(this.timerStudy());
 	private intervalId: ReturnType<typeof setInterval> | null = null;
 
+	constructor() {
+		const stored = localStorage.getItem('timer');
+		if (stored) {
+			const { timerStudy, timerRest, timerRestLonger } = JSON.parse(stored);
+			JSON.parse(stored);
+			this.timerStudy.set(timerStudy);
+			this.timerRest.set(timerRest);
+			this.timerRestLonger.set(timerRestLonger);
+			this.remainingTime.set(timerStudy);
+		}
+	}
+
 	progress = computed(() => {
 		const total =
 			this.timerController() === 'study' ? this.timerStudy() : this.timerRest();
