@@ -5,8 +5,6 @@ import { TimerInterface } from './clockSettings/clock-settings';
 	providedIn: 'root',
 })
 export class ClockService {
-	// timerStudy = signal(10 * 1000); // estudo: 10 segundos
-	// timerRest = signal(5 * 1000); // descanso: 5 segundos
 	private timerStudy = signal(25 * 60 * 1000); // estudo: 25 minutos
 	private timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
 	private timerRestLonger = signal(this.timerRest() * 3);
@@ -18,6 +16,7 @@ export class ClockService {
 	remainingTime = signal(this.timerStudy());
 	private intervalId: ReturnType<typeof setInterval> | null = null;
 
+	// ? Pega a informação do localStorage se existir
 	constructor() {
 		const stored = localStorage.getItem('timer');
 		if (stored) {
@@ -110,7 +109,6 @@ export class ClockService {
 			this.remainingTime.set(this.timerStudy());
 		}
 		this.timerActive.set(false);
-		// Aqui **não reinicia** automaticamente!
 	}
 
 	playSound() {
