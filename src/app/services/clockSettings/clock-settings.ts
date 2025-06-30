@@ -34,7 +34,7 @@ export class ClockSettings {
 			this.timers.find(
 				(timerFd) =>
 					timer.timerRest === timerFd.timerRest &&
-					timer.timerRestLonger === timerFd.timerRest &&
+					timer.timerRestLonger === timerFd.timerRestLonger &&
 					timer.timerStudy === timerFd.timerStudy
 			)
 		) {
