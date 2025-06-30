@@ -55,6 +55,10 @@ export class ClockSettings {
 		this.saveTimers();
 	}
 
+	saveTimer(timer: TimerInterface) {
+		localStorage.setItem('timer', JSON.stringify(timer));
+	}
+
 	private saveTimers() {
 		localStorage.setItem('timers', JSON.stringify(this.timers));
 	}

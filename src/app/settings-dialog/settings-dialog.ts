@@ -10,7 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { ClockService } from '../services/clock.service';
-import { ClockSettings } from '../services/clockSettings/clock-settings';
+import {
+	ClockSettings,
+	TimerInterface,
+} from '../services/clockSettings/clock-settings';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
@@ -54,7 +57,7 @@ export class SettingsDialogComponent {
 			timerStudy: study * 60 * 1000,
 			timerRestLonger: restLonger * 60 * 1000,
 		});
-    this.tabSelected.set(true);
+		this.tabSelected.set(true);
 	}
 
 	checkTimers() {
@@ -63,5 +66,15 @@ export class SettingsDialogComponent {
 				timer.timerStudy !== this.timerSelected.timerStudy &&
 				timer.timerRest !== this.timerSelected.timerRest
 		);
+	}
+
+	clickChangeTimer(timer: TimerInterface) {
+		this.clockService.changeTimers(
+			timer.timerStudy,
+			timer.timerRest,
+			timer.timerRestLonger
+		),
+		this.dialogRef.close();
+		this.clockSettings.saveTimer(timer);
 	}
 }
