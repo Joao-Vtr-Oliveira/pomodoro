@@ -23,6 +23,8 @@ Este projeto é uma aplicação baseada na [técnica Pomodoro](https://pt.wikipe
 * ⚙️ Modal de configurações com suporte a múltiplas predefinições de tempo.
 * 💾 Dados persistidos via `localStorage` para salvar predefinições e preferências do usuário.
 
+Teste a aplicação [aqui](https://pomodoro-three-ruddy.vercel.app/).
+
 ---
 
 ## 📄 Páginas
