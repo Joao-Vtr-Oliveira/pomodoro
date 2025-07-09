@@ -1,4 +1,4 @@
-# Pomodoro
+# Pomodoro!
 
 <div align="center">
   <p><strong>Tecnologias utilizadas:</strong></p>
