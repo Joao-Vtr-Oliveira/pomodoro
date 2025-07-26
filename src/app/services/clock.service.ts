@@ -63,6 +63,8 @@ export class ClockService {
 			);
 		}
 
+		this.notifyStartCycle(Math.round(this.remainingTime() / 60000));
+
 		let remaining =
 			this.pausedTimeLeft !== null ? this.pausedTimeLeft : this.remainingTime();
 
@@ -77,7 +79,7 @@ export class ClockService {
 			if (remaining === 5 * 60 * 1000) {
 				this.notifyTimeLeft(5);
 			}
-			if ((remaining <= 0)) {
+			if (remaining <= 0) {
 				remaining = 0;
 				this.stopClock();
 				this.handleCycleEnd();
@@ -128,6 +130,8 @@ export class ClockService {
 			this.remainingTime.set(this.timerStudy());
 		}
 		this.timerActive.set(false);
+		this.pausedTimeLeft = null;
+		this.endTime = null;
 	}
 
 	playSound() {
@@ -143,6 +147,18 @@ export class ClockService {
 			timerRest: this.timerRest(),
 			timerRestLonger: this.timerRestLonger(),
 		};
+	}
+
+	private notifyStartCycle(minutesTotal: number) {
+		if ('Notification' in window && Notification.permission === 'granted') {
+			new Notification('🍅 Pomodoro iniciado!', {
+				body: `Ciclo de ${minutesTotal} minutos começou!`,
+				icon: '/icons/icon-192x192.png',
+				badge: '/icons/icon-96x96.png',
+				vibrate: [200, 100, 200],
+				tag: 'pomodoro-timer',
+			} as any);
+		}
 	}
 
 	private notifyTimeLeft(minutesLeft: number) {
