@@ -8,6 +8,8 @@ export class ClockService {
 	private timerStudy = signal(25 * 60 * 1000); // estudo: 25 minutos
 	private timerRest = signal(5 * 60 * 1000); // descanso: 5 minutos
 	private timerRestLonger = signal(this.timerRest() * 3);
+	private endTime: number | null = null;
+	private pausedTimeLeft: number | null = null;
 	studyCycle = signal(0); // Quantos ciclos já se passaram
 
 	timerController = signal<'study' | 'rest'>('study'); // Se é estudo ou descanso
@@ -61,21 +63,27 @@ export class ClockService {
 			);
 		}
 
+		let remaining =
+			this.pausedTimeLeft !== null ? this.pausedTimeLeft : this.remainingTime();
+
+		remaining = Math.max(0, remaining);
+
+		this.endTime = Date.now() + remaining;
+		this.pausedTimeLeft = null;
+
 		this.intervalId = setInterval(() => {
-			this.remainingTime.update((time) => {
-				if (time === 5 * 60 * 1000) {
-					this.notifyTimeLeft(5);
-				}
-
-				if (time <= 1000) {
-					this.stopClock();
-					this.handleCycleEnd();
-					this.playSound();
-					return 0;
-				}
-
-				return time - 1000;
-			});
+			const now = Date.now();
+			let remaining = (this.endTime ?? now) - now;
+			if (remaining === 5 * 60 * 1000) {
+				this.notifyTimeLeft(5);
+			}
+			if ((remaining <= 0)) {
+				remaining = 0;
+				this.stopClock();
+				this.handleCycleEnd();
+				this.playSound();
+			}
+			this.remainingTime.set(remaining);
 		}, 1000);
 	}
 
@@ -84,6 +92,13 @@ export class ClockService {
 			clearInterval(this.intervalId);
 			this.intervalId = null;
 			this.timerActive.set(false);
+			if (this.endTime) {
+				const now = Date.now();
+				const left = Math.max(0, this.endTime - now);
+				this.pausedTimeLeft = left;
+				this.remainingTime.set(left);
+			}
+			this.endTime = null;
 		}
 	}
 
