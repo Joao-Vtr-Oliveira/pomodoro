@@ -118,7 +118,7 @@ export class ClockService {
 	}
 
 	playSound() {
-		const audio = new Audio('alarm-sound.mp3');
+		const audio = new Audio('/alarm-sound.mp3');
 		audio.play().catch((err) => {
 			console.error('Erro ao tocar o som: ', err);
 		});
