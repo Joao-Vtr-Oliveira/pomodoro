@@ -151,41 +151,71 @@ export class ClockService {
 
 	private notifyStartCycle(minutesTotal: number) {
 		if ('Notification' in window && Notification.permission === 'granted') {
-			new Notification('🍅 Pomodoro iniciado!', {
-				body: `Ciclo de ${minutesTotal} minutos começou!`,
-				icon: '/icons/icon-192x192.png',
-				badge: '/icons/icon-96x96.png',
-				vibrate: [200, 100, 200],
-				tag: 'pomodoro-timer',
-			} as any);
+			try {
+				new Notification('🍅 Pomodoro iniciado!', {
+					body: `Ciclo de ${minutesTotal} minutos começou!`,
+					icon: '/icons/icon-192x192.png',
+					badge: '/icons/icon-96x96.png',
+					vibrate: [200, 100, 200],
+					tag: 'pomodoro-timer',
+				} as any);
+				console.log('Notificação "Pomodoro iniciado" enviada!');
+			} catch (e) {
+				console.error('Erro ao criar notificação de início:', e);
+			}
+		} else {
+			console.log(
+				'Permissão de notificação não concedida (início):',
+				Notification.permission
+			);
 		}
 	}
 
 	private notifyTimeLeft(minutesLeft: number) {
 		if ('Notification' in window && Notification.permission === 'granted') {
-			new Notification('⏳ Pomodoro em andamento!', {
-				body: `Faltam apenas ${minutesLeft} minutos para concluir este ciclo.`,
-				icon: '/icons/icon-192x192.png',
-				badge: '/icons/icon-96x96.png',
-				vibrate: [200, 100, 200],
-				tag: 'pomodoro-timer',
-			} as any);
+			try {
+				new Notification('⏳ Pomodoro em andamento!', {
+					body: `Faltam apenas ${minutesLeft} minutos para concluir este ciclo.`,
+					icon: '/icons/icon-192x192.png',
+					badge: '/icons/icon-96x96.png',
+					vibrate: [200, 100, 200],
+					tag: 'pomodoro-timer',
+				} as any);
+				console.log('Notificação de tempo restante enviada!');
+			} catch (e) {
+				console.error('Erro ao criar notificação de tempo restante:', e);
+			}
+		} else {
+			console.log(
+				'Permissão de notificação não concedida (tempo):',
+				Notification.permission
+			);
 		}
 	}
 
 	private notifyEndCycle(isStudy: boolean) {
 		if ('Notification' in window && Notification.permission === 'granted') {
-			new Notification(
-				isStudy ? '🍅 Pomodoro finalizado!' : '💤 Descanso finalizado!',
-				{
-					body: isStudy
-						? 'Hora de fazer uma pausa! Você completou um ciclo.'
-						: 'Hora de voltar a estudar!',
-					icon: '/icons/icon-192x192.png',
-					badge: '/icons/icon-96x96.png',
-					vibrate: [400, 200, 400],
-					tag: 'pomodoro-timer',
-				} as any
+			try {
+				new Notification(
+					isStudy ? '🍅 Pomodoro finalizado!' : '💤 Descanso finalizado!',
+					{
+						body: isStudy
+							? 'Hora de fazer uma pausa! Você completou um ciclo.'
+							: 'Hora de voltar a estudar!',
+						icon: '/icons/icon-192x192.png',
+						badge: '/icons/icon-96x96.png',
+						vibrate: [400, 200, 400],
+						tag: 'pomodoro-timer',
+					} as any
+				);
+				console.log('Notificação de fim de ciclo enviada!');
+			} catch (e) {
+				console.error('Erro ao criar notificação de fim de ciclo:', e);
+			}
+		} else {
+			console.log(
+				'Permissão de notificação não concedida (fim):',
+				Notification.permission
 			);
 		}
 	}
