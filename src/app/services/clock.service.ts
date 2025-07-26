@@ -63,20 +63,18 @@ export class ClockService {
 
 		this.intervalId = setInterval(() => {
 			this.remainingTime.update((time) => {
-				const updated = time - 1000;
-
-				if (updated === 5 * 60 * 1000) {
+				if (time === 5 * 60 * 1000) {
 					this.notifyTimeLeft(5);
 				}
 
-				if (updated <= 0) {
+				if (time <= 1000) {
 					this.stopClock();
 					this.handleCycleEnd();
 					this.playSound();
 					return 0;
 				}
 
-				return updated;
+				return time - 1000;
 			});
 		}, 1000);
 	}
