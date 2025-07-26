@@ -76,9 +76,10 @@ export class ClockService {
 		this.intervalId = setInterval(() => {
 			const now = Date.now();
 			let remaining = (this.endTime ?? now) - now;
-			if (remaining === 5 * 60 * 1000) {
+			if (remaining <= 5 * 60 * 1000 + 500 && remaining > 5 * 60 * 1000 - 500) {
 				this.notifyTimeLeft(5);
 			}
+
 			if (remaining <= 0) {
 				remaining = 0;
 				this.stopClock();
@@ -110,6 +111,8 @@ export class ClockService {
 			this.timerController() === 'study' ? this.timerStudy() : this.timerRest()
 		);
 		this.timerActive.set(false);
+		this.pausedTimeLeft = null;
+		this.endTime = null;
 	}
 
 	handleCycleEnd() {
