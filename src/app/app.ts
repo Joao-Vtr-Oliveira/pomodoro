@@ -31,8 +31,8 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog';
 export class App {
 	clockService = inject(ClockService);
 	showMusic = signal(false);
-  
-  private dialog = inject(MatDialog);
+
+	private dialog = inject(MatDialog);
 
 	onMusicClick() {
 		this.showMusic.update((oldMusic) => !oldMusic);
@@ -47,5 +47,11 @@ export class App {
 		const min = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
 		const sec = String(totalSeconds % 60).padStart(2, '0');
 		return `${min}:${sec}`;
+	}
+
+	ngOnInit() {
+		if ('Notification' in window && Notification.permission === 'default') {
+			Notification.requestPermission();
+		}
 	}
 }

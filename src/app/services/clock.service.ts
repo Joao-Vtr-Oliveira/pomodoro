@@ -65,6 +65,10 @@ export class ClockService {
 			this.remainingTime.update((time) => {
 				const updated = time - 1000;
 
+				if (updated === 5 * 60 * 1000) {
+					this.notifyTimeLeft(5);
+				}
+
 				if (updated <= 0) {
 					this.stopClock();
 					this.handleCycleEnd();
@@ -96,6 +100,7 @@ export class ClockService {
 	handleCycleEnd() {
 		if (this.timerController() === 'study') {
 			console.log('⏰ Estudo acabou! Hora de descansar!');
+			this.notifyEndCycle(true);
 			this.studyCycle.update((oldValue) => oldValue + 1);
 			this.timerController.set('rest');
 			if (this.studyCycle() % 4 === 0) {
@@ -105,6 +110,7 @@ export class ClockService {
 			}
 		} else {
 			console.log('⏰ Descanso acabou! Hora de voltar a estudar!');
+			this.notifyEndCycle(false);
 			this.timerController.set('study');
 			this.remainingTime.set(this.timerStudy());
 		}
@@ -124,5 +130,34 @@ export class ClockService {
 			timerRest: this.timerRest(),
 			timerRestLonger: this.timerRestLonger(),
 		};
+	}
+
+	private notifyTimeLeft(minutesLeft: number) {
+		if ('Notification' in window && Notification.permission === 'granted') {
+			new Notification('⏳ Pomodoro em andamento!', {
+				body: `Faltam apenas ${minutesLeft} minutos para concluir este ciclo.`,
+				icon: '/icons/icon-192x192.png',
+				badge: '/icons/icon-96x96.png',
+				vibrate: [200, 100, 200],
+				tag: 'pomodoro-timer',
+			} as any);
+		}
+	}
+
+	private notifyEndCycle(isStudy: boolean) {
+		if ('Notification' in window && Notification.permission === 'granted') {
+			new Notification(
+				isStudy ? '🍅 Pomodoro finalizado!' : '💤 Descanso finalizado!',
+				{
+					body: isStudy
+						? 'Hora de fazer uma pausa! Você completou um ciclo.'
+						: 'Hora de voltar a estudar!',
+					icon: '/icons/icon-192x192.png',
+					badge: '/icons/icon-96x96.png',
+					vibrate: [400, 200, 400],
+					tag: 'pomodoro-timer',
+				} as any
+			);
+		}
 	}
 }
